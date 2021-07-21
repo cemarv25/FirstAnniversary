@@ -1,23 +1,37 @@
-import { useEffect, useState } from 'react';
-import { Grid, Typography, makeStyles, Button } from '@material-ui/core';
+import { useState, useEffect } from 'react';
+import {
+  Grid,
+  Typography,
+  makeStyles,
+  Button,
+  ClickAwayListener,
+  Tooltip,
+} from '@material-ui/core';
 import { ArrowBack, ArrowForward, Menu } from '@material-ui/icons';
-import { Link, useRouteMatch, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
-const Navbar = ({ toggleDrawer }) => {
-  const [step, setStep] = useState(0);
+const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
   const [title, setTitle] = useState('<3');
-  const { path } = useRouteMatch();
-  const history = useHistory();
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
-  const handleNavigate = (direction) => {
-    if (direction === 'back' && step > 0) {
-      setStep((prevState) => prevState - 1);
-    }
+  const isStepCompleted = (step) => {
+    return completedSteps[step].completed;
+  };
 
-    if (direction == 'forward' && step < 4) {
-      setStep((prevState) => prevState + 1);
-    }
+  const handleTooltipOpen = () => {
+    setTooltipOpen(true);
+  };
+
+  const handleTooltipClose = () => {
+    setTooltipOpen(false);
+  };
+
+  const handleRequestNavigateForward = (step) => {
+    if (step == 0) handleNavigate('forward');
+    else if (isStepCompleted(step)) handleNavigate('forward');
+    else handleTooltipOpen();
   };
 
   useEffect(() => {
@@ -51,9 +65,24 @@ const Navbar = ({ toggleDrawer }) => {
         <Typography className={classes.navbarTitle}>{title}</Typography>
       </Grid>
       <Grid container item xs={3} justifyContent="center">
-        <Button onClick={() => handleNavigate('forward')}>
-          <ArrowForward />
-        </Button>
+        <ClickAwayListener onClickAway={handleTooltipClose}>
+          <Tooltip
+            open={tooltipOpen}
+            onClose={handleTooltipClose}
+            disableFocusListener
+            disableHoverListener
+            disableTouchListener
+            title={
+              <Typography className={classes.tooltipText}>
+                {'Debes completar el paso para avanzar >:('}
+              </Typography>
+            }
+          >
+            <Button onClick={() => handleRequestNavigateForward(step)}>
+              <ArrowForward />
+            </Button>
+          </Tooltip>
+        </ClickAwayListener>
       </Grid>
     </Grid>
   );
@@ -73,6 +102,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '5px',
     width: '100%',
     height: '100%',
+  },
+  tooltipText: {
+    fontWeight: '3rem',
   },
 }));
 

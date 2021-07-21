@@ -1,7 +1,8 @@
 import React from 'react';
 import { Grid, Typography, Button, makeStyles } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({ handleNavigate }) => {
   const classes = useStyles();
 
   return (
@@ -21,7 +22,11 @@ const Home = () => {
           paso :)
         </Typography>
       </Grid>
-      <Button variant="contained" className={classes.button}>
+      <Button
+        variant="contained"
+        onClick={() => handleNavigate('forward')}
+        className={classes.button}
+      >
         Empezar!
       </Button>
       <Typography className={classes.footer}>

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
 import { Step1, Step2, Step3, Step4 } from './components/Steps/Steps';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
@@ -12,7 +12,28 @@ function App() {
     { index: 3, completed: false },
     { index: 4, completed: false },
   ]);
+  const [step, setStep] = useState(0);
   const [open, setOpen] = useState(false);
+
+  const handleCompleteStep = (completedStep) => {
+    setCompletedSteps((prevCompletedSteps) => {
+      const newCompletedSteps = [...prevCompletedSteps];
+      newCompletedSteps[completedStep - 1].completed = true;
+
+      return newCompletedSteps;
+    });
+    handleNavigate('forward');
+  };
+
+  const handleNavigate = (direction) => {
+    if (direction === 'back' && step > 0) {
+      setStep((prevState) => prevState - 1);
+    }
+
+    if (direction == 'forward' && step < 4) {
+      setStep((prevState) => prevState + 1);
+    }
+  };
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -21,7 +42,12 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar toggleDrawer={toggleDrawer} />
+        <Navbar
+          toggleDrawer={toggleDrawer}
+          step={step}
+          completedSteps={completedSteps}
+          handleNavigate={handleNavigate}
+        />
         <Drawer
           open={open}
           toggleDrawer={toggleDrawer}
@@ -29,19 +55,31 @@ function App() {
         />
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home handleNavigate={handleNavigate} />
           </Route>
           <Route exact path="/1">
-            <Step1 completedSteps={completedSteps} />
+            <Step1
+              handleCompleteStep={handleCompleteStep}
+              handleNavigate={handleNavigate}
+            />
           </Route>
           <Route exact path="/2">
-            <Step2 completedSteps={completedSteps} />
+            <Step2
+              handleCompleteStep={handleCompleteStep}
+              handleNavigate={handleNavigate}
+            />
           </Route>
           <Route exact path="/3">
-            <Step3 completedSteps={completedSteps} />
+            <Step3
+              handleCompleteStep={handleCompleteStep}
+              handleNavigate={handleNavigate}
+            />
           </Route>
           <Route exact path="/4">
-            <Step4 completedSteps={completedSteps} />
+            <Step4
+              handleCompleteStep={handleCompleteStep}
+              handleNavigate={handleNavigate}
+            />
           </Route>
         </Switch>
       </BrowserRouter>
