@@ -1,24 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Step1, Step2, Step3, Step4 } from './components/Steps/Steps';
+import Home from './components/Home';
+import Navbar from './components/Navbar';
+import Drawer from './components/Drawer';
 
 function App() {
+  const [completedSteps, setCompletedSteps] = useState([
+    { index: 1, completed: false },
+    { index: 2, completed: false },
+    { index: 3, completed: false },
+    { index: 4, completed: false },
+  ]);
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Navbar toggleDrawer={toggleDrawer} />
+        <Drawer
+          open={open}
+          toggleDrawer={toggleDrawer}
+          completedSteps={completedSteps}
+        />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/1">
+            <Step1 completedSteps={completedSteps} />
+          </Route>
+          <Route exact path="/2">
+            <Step2 completedSteps={completedSteps} />
+          </Route>
+          <Route exact path="/3">
+            <Step3 completedSteps={completedSteps} />
+          </Route>
+          <Route exact path="/4">
+            <Step4 completedSteps={completedSteps} />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </>
   );
 }
 
