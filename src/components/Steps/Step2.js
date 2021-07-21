@@ -5,11 +5,14 @@ import {
   TextField,
   makeStyles,
   Button,
+  ClickAwayListener,
+  Tooltip,
 } from '@material-ui/core';
 
 const Step2 = ({ handleCompleteStep, handleNavigate }) => {
   const classes = useStyles();
   const [disabled, setDisabled] = useState(true);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [answer, setAnswer] = useState('');
 
   const handleTextChange = (e) => {
@@ -28,6 +31,13 @@ const Step2 = ({ handleCompleteStep, handleNavigate }) => {
       setDisabled(true);
     }
   };
+
+  const handleTooltip = () => {
+    if (disabled && !tooltipOpen) setTooltipOpen(true);
+    else setTooltipOpen(false);
+  };
+
+  const handleCloseTooltip = () => setTooltipOpen(false);
 
   useEffect(() => {
     validateAnswer(answer);
@@ -50,14 +60,24 @@ const Step2 = ({ handleCompleteStep, handleNavigate }) => {
         inputProps={{ className: classes.input }}
         InputLabelProps={{ className: classes.inputLabel }}
       />
-      <Button
-        disabled={disabled}
-        variant="contained"
-        onClick={() => handleCompleteStep(1)}
-        className={classes.button}
-      >
-        Siguiente paso
-      </Button>
+      <ClickAwayListener onClickAway={handleCloseTooltip}>
+        <Tooltip
+          open={tooltipOpen}
+          title="Debes poner la respuesta correcta para que se habilite el boton."
+          arrow
+        >
+          <Grid container justifyContent="center" onClick={handleTooltip}>
+            <Button
+              disabled={disabled}
+              variant="contained"
+              onClick={() => handleCompleteStep(2)}
+              className={classes.button}
+            >
+              Siguiente paso
+            </Button>
+          </Grid>
+        </Tooltip>
+      </ClickAwayListener>
     </Grid>
   );
 };

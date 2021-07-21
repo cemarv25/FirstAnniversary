@@ -2,36 +2,29 @@ import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Typography,
-  TextField,
-  makeStyles,
+  Checkbox,
   Button,
+  ClickAwayListener,
+  Tooltip,
+  makeStyles,
 } from '@material-ui/core';
 
 const Step3 = ({ handleCompleteStep, handleNavigate }) => {
   const classes = useStyles();
-  const [disabled, setDisabled] = useState(true);
+  const [checked, setChecked] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [answer, setAnswer] = useState('');
 
-  const handleTextChange = (e) => {
-    setAnswer(e.target.value);
+  const toggleCheckbox = () => {
+    setChecked(!checked);
   };
 
-  const validateAnswer = (answer) => {
-    if (
-      answer === 'hamburguesas' ||
-      answer === 'Hamburguesas' ||
-      answer === 'mirador' ||
-      answer === 'Mirador'
-    ) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
+  const handleTooltip = () => {
+    if (!checked && !tooltipOpen) setTooltipOpen(true);
+    else setTooltipOpen(false);
   };
 
-  useEffect(() => {
-    validateAnswer(answer);
-  }, [answer]);
+  const handleCloseTooltip = () => setTooltipOpen(false);
 
   return (
     <Grid container direction="column" className={classes.container}>
@@ -42,24 +35,32 @@ const Step3 = ({ handleCompleteStep, handleNavigate }) => {
           todos los lugares a los que te lleven los distintos acertijos o pasos
           de la forma en la que se describe en él.
         </Typography>
+        <Typography className={classes.text}>
+          Por ahora, tienes que ir al lugar donde ocurre la frase anterior.
+        </Typography>
       </Grid>
-      <TextField
-        id="step1-answer"
-        key="step1-answer"
-        value={answer}
-        onChange={handleTextChange}
-        label="Respuesta"
-        inputProps={{ className: classes.input }}
-        InputLabelProps={{ className: classes.inputLabel }}
-      />
-      <Button
-        disabled={disabled}
-        variant="contained"
-        onClick={() => handleCompleteStep(1)}
-        className={classes.button}
-      >
-        Siguiente paso
-      </Button>
+      <Grid container direction="row" alignItems="center">
+        <Checkbox checked={checked} onChange={toggleCheckbox} />
+        <Typography>Ya tome la foto, dejame pasar alv</Typography>
+      </Grid>
+      <ClickAwayListener onClickAway={handleCloseTooltip}>
+        <Tooltip
+          open={tooltipOpen}
+          title="Debes poner la respuesta correcta para que se habilite el boton."
+          arrow
+        >
+          <Grid container justifyContent="center" onClick={handleTooltip}>
+            <Button
+              disabled={!checked}
+              variant="contained"
+              onClick={() => handleCompleteStep(3)}
+              className={classes.button}
+            >
+              Siguiente paso
+            </Button>
+          </Grid>
+        </Tooltip>
+      </ClickAwayListener>
     </Grid>
   );
 };

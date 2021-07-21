@@ -72,6 +72,7 @@ const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
             disableFocusListener
             disableHoverListener
             disableTouchListener
+            arrow
             title={
               <Typography className={classes.tooltipText}>
                 {'Debes completar el paso para avanzar >:('}
