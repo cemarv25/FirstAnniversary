@@ -5,11 +5,11 @@ import {
   TextField,
   makeStyles,
   Button,
-  ClickAwayListener,
   Tooltip,
+  ClickAwayListener,
 } from '@material-ui/core';
 
-const Step2 = ({ handleCompleteStep, handleNavigate }) => {
+const Step7 = ({ handleCompleteStep, handleNavigate }) => {
   const classes = useStyles();
   const [disabled, setDisabled] = useState(true);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -20,12 +20,7 @@ const Step2 = ({ handleCompleteStep, handleNavigate }) => {
   };
 
   const validateAnswer = (answer) => {
-    if (
-      answer ===
-        'no hay nada mejor que unos hot dogs en la noshe con miamorsito' ||
-      answer ===
-        'No hay nada mejor que unos hot dogs en la noshe con miamorsito'
-    ) {
+    if (answer === 'collar' || answer === 'Collar') {
       setDisabled(false);
     } else {
       setDisabled(true);
@@ -47,12 +42,18 @@ const Step2 = ({ handleCompleteStep, handleNavigate }) => {
     <Grid container direction="column" className={classes.container}>
       <Grid item style={{ marginBottom: '50px' }}>
         <Typography className={classes.text}>
-          Para completar el segundo paso necesitas preguntarle a tuamorsito qp.
-          De ahí él te explicará y tendrás que poner la respuesta aquí abajo.
+          Resulta que la respuesta a este paso se encuentra atrapada en algo que
+          puede ser de varios colores. Rescátalo y escribe qué es para pasar al
+          siguiente :o
+        </Typography>
+        <Typography>
+          Pista: algo que hemos visto muy pocas veces juntos, si no es que nunca
+          y necesita algo especial para no pasársela en el suelo.
         </Typography>
       </Grid>
       <TextField
-        id="step2-answer"
+        id="step1-answer"
+        key="step1-answer"
         value={answer}
         onChange={handleTextChange}
         label="Respuesta"
@@ -69,7 +70,7 @@ const Step2 = ({ handleCompleteStep, handleNavigate }) => {
             <Button
               disabled={disabled}
               variant="contained"
-              onClick={() => handleCompleteStep(2)}
+              onClick={() => handleCompleteStep(1)}
               className={classes.button}
             >
               Siguiente paso
@@ -89,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   text: {
     margin: 0,
     padding: 0,
-    fontSize: '1.75rem',
+    fontSize: '2rem',
   },
   input: {
     fontSize: '2rem',
@@ -109,4 +110,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Step2;
+export default Step7;

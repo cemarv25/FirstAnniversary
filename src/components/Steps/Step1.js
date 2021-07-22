@@ -63,7 +63,7 @@ const Step1 = ({ handleCompleteStep, handleNavigate }) => {
       <ClickAwayListener onClickAway={handleCloseTooltip}>
         <Tooltip
           open={tooltipOpen}
-          title="Debes poner la respuesta correcta para que se habilite el boton."
+          title="Debes poner la respuesta correcta para que se habilite el boton >:("
           arrow
         >
           <Grid container justifyContent="center" onClick={handleTooltip}>

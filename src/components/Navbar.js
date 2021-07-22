@@ -42,7 +42,7 @@ const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
       history.push('/');
       setTitle('<3');
     }
-    if (step > 0 && step < 6) {
+    if (step > 0 && step < 9) {
       history.push(`/${step}`);
       setTitle(`Paso ${step}`);
     }

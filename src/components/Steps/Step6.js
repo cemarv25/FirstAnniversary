@@ -2,74 +2,52 @@ import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Typography,
-  TextField,
+  Checkbox,
   makeStyles,
   Button,
   ClickAwayListener,
   Tooltip,
 } from '@material-ui/core';
 
-const Step2 = ({ handleCompleteStep, handleNavigate }) => {
+const Step6 = ({ handleCompleteStep, handleNavigate }) => {
   const classes = useStyles();
-  const [disabled, setDisabled] = useState(true);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [answer, setAnswer] = useState('');
+  const [checked, setChecked] = useState(false);
 
-  const handleTextChange = (e) => {
-    setAnswer(e.target.value);
-  };
-
-  const validateAnswer = (answer) => {
-    if (
-      answer ===
-        'no hay nada mejor que unos hot dogs en la noshe con miamorsito' ||
-      answer ===
-        'No hay nada mejor que unos hot dogs en la noshe con miamorsito'
-    ) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
+  const toggleCheckbox = () => {
+    setChecked(!checked);
   };
 
   const handleTooltip = () => {
-    if (disabled && !tooltipOpen) setTooltipOpen(true);
+    if (!checked && !tooltipOpen) setTooltipOpen(true);
     else setTooltipOpen(false);
   };
 
   const handleCloseTooltip = () => setTooltipOpen(false);
 
-  useEffect(() => {
-    validateAnswer(answer);
-  }, [answer]);
-
   return (
     <Grid container direction="column" className={classes.container}>
       <Grid item style={{ marginBottom: '50px' }}>
         <Typography className={classes.text}>
-          Para completar el segundo paso necesitas preguntarle a tuamorsito qp.
-          De ahí él te explicará y tendrás que poner la respuesta aquí abajo.
+          Aqui es cuando vamos a dejar el regalito a mi casa :)
         </Typography>
+        <Typography>...y de una vez comemos equisdé</Typography>
       </Grid>
-      <TextField
-        id="step2-answer"
-        value={answer}
-        onChange={handleTextChange}
-        label="Respuesta"
-        inputProps={{ className: classes.input }}
-        InputLabelProps={{ className: classes.inputLabel }}
-      />
+      <Grid container direction="row" alignItems="center">
+        <Checkbox checked={checked} onChange={toggleCheckbox} />
+        <Typography>Ya tome la foto, dejame pasar alv</Typography>
+      </Grid>
       <ClickAwayListener onClickAway={handleCloseTooltip}>
         <Tooltip
           open={tooltipOpen}
-          title="Debes poner la respuesta correcta para que se habilite el boton >:("
+          title="Debes poner que ya tomaste la foto >:("
           arrow
         >
           <Grid container justifyContent="center" onClick={handleTooltip}>
             <Button
-              disabled={disabled}
+              disabled={!checked}
               variant="contained"
-              onClick={() => handleCompleteStep(2)}
+              onClick={() => handleCompleteStep(4)}
               className={classes.button}
             >
               Siguiente paso
@@ -89,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   text: {
     margin: 0,
     padding: 0,
-    fontSize: '1.75rem',
+    fontSize: '1.7rem',
   },
   input: {
     fontSize: '2rem',
@@ -109,4 +87,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Step2;
+export default Step6;
