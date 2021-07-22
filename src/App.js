@@ -89,6 +89,19 @@ function App() {
       possibleAnswers: ['724863915'],
       text: 'Ahora es el momento de disfrutar de un lindo sudoku. El diario de la fecha 12 de junio de 2021, justo un mes y 10 días antes del aniversario :o\nEl link para este sudoku es https://tinyurl.com/2sjnmdwt',
     },
+    {
+      index: 10,
+      completed: false,
+      type: 'image',
+      text: 'Esta un cute tu collar, pero como que le falta algo no? \nCreo que vi algo que le podría quedar en aquella vitrina que casi tiras una vez ╭( ๐ _๐)╮',
+    },
+    {
+      index: 11,
+      completed: false,
+      type: 'input',
+      possibleAnswers: ['27/06/2020'],
+      text: 'La prueba final ha llegado, te consideras una verdadera novia que recuerda las fechas importantes? \nEn el caso de que dijeras que no, ni modo >:(\n En el caso de que si, cual fue la fecha en la que salimos por primera vez? (dd/mm/aaaa)',
+    },
   ]);
   const [step, setStep] = useState(0);
   const [open, setOpen] = useState(false);
