@@ -47,8 +47,8 @@ const Step1 = ({ handleCompleteStep, handleNavigate }) => {
     <Grid container direction="column" className={classes.container}>
       <Grid item style={{ marginBottom: '50px' }}>
         <Typography className={classes.text}>
-          El primer paso es simplemente poner la respuesta al acertijo en la
-          cajita de abajo :)
+          El primer paso es simplemente poner la respuesta al acertijo en el
+          espacio de abajo :)
         </Typography>
       </Grid>
       <TextField

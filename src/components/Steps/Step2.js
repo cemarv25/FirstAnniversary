@@ -52,8 +52,7 @@ const Step2 = ({ handleCompleteStep, handleNavigate }) => {
         </Typography>
       </Grid>
       <TextField
-        id="step1-answer"
-        key="step1-answer"
+        id="step2-answer"
         value={answer}
         onChange={handleTextChange}
         label="Respuesta"

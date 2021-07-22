@@ -17,6 +17,7 @@ const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
   const history = useHistory();
 
   const isStepCompleted = (step) => {
+    if (!completedSteps[step]) return false;
     return completedSteps[step].completed;
   };
 
@@ -35,12 +36,13 @@ const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
   };
 
   useEffect(() => {
-    console.log(step);
+    console.log('completed', completedSteps);
+    console.log('step', step);
     if (step == 0) {
       history.push('/');
       setTitle('<3');
     }
-    if (step > 0 && step < 5) {
+    if (step > 0 && step < 6) {
       history.push(`/${step}`);
       setTitle(`Paso ${step}`);
     }

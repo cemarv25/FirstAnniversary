@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
-import { Step1, Step2, Step3, Step4 } from './components/Steps/Steps';
+import { Step1, Step2, Step3, Step4, Step5 } from './components/Steps/Steps';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
 import Drawer from './components/Drawer';
@@ -11,6 +11,7 @@ function App() {
     { index: 2, completed: false },
     { index: 3, completed: false },
     { index: 4, completed: false },
+    { index: 5, completed: false },
   ]);
   const [step, setStep] = useState(0);
   const [open, setOpen] = useState(false);
@@ -30,7 +31,7 @@ function App() {
       setStep((prevState) => prevState - 1);
     }
 
-    if (direction == 'forward' && step < 4) {
+    if (direction == 'forward' && step < 5) {
       setStep((prevState) => prevState + 1);
     }
   };
@@ -77,6 +78,12 @@ function App() {
           </Route>
           <Route exact path="/4">
             <Step4
+              handleCompleteStep={handleCompleteStep}
+              handleNavigate={handleNavigate}
+            />
+          </Route>
+          <Route exact path="/5">
+            <Step5
               handleCompleteStep={handleCompleteStep}
               handleNavigate={handleNavigate}
             />

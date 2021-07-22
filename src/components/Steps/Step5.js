@@ -2,57 +2,74 @@ import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Typography,
-  Checkbox,
+  TextField,
+  makeStyles,
   Button,
   ClickAwayListener,
   Tooltip,
-  makeStyles,
 } from '@material-ui/core';
 
-const Step3 = ({ handleCompleteStep, handleNavigate }) => {
+const Step5 = ({ handleCompleteStep, handleNavigate }) => {
   const classes = useStyles();
-  const [checked, setChecked] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [answer, setAnswer] = useState('');
 
-  const toggleCheckbox = () => {
-    setChecked(!checked);
+  const handleTextChange = (e) => {
+    setAnswer(e.target.value);
+  };
+
+  const validateAnswer = (answer) => {
+    if (answer === '1947') {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   };
 
   const handleTooltip = () => {
-    if (!checked && !tooltipOpen) setTooltipOpen(true);
+    if (disabled && !tooltipOpen) setTooltipOpen(true);
     else setTooltipOpen(false);
   };
 
   const handleCloseTooltip = () => setTooltipOpen(false);
 
+  useEffect(() => {
+    validateAnswer(answer);
+  }, [answer]);
+
   return (
     <Grid container direction="column" className={classes.container}>
       <Grid item style={{ marginBottom: '50px' }}>
         <Typography className={classes.text}>
-          El tercer paso va a servir para empezar con la dinámica que va a haber
-          a lo largo de todo el día. Esta dinámica consiste en tomar fotos de
-          todos los lugares a los que te lleven los distintos acertijos o pasos
-          de la forma descrita en él o por tuamorsito.
+          En este paso tienes que buscar en el lugar en el que ya estás. Hay un
+          edificio que encima tiene una persona rara que tiene algo en la mano.
+          Si te acercas mucho es probable que no veas la respuesta.
         </Typography>
-        <Typography className={classes.text}>
-          Por ahora, tienes que ir al lugar donde ocurre la frase anterior.
+        <Typography>
+          Pista: maybe el tipo raro encima del edificio considera ésta una fecha
+          importante.
         </Typography>
       </Grid>
-      <Grid container direction="row" alignItems="center">
-        <Checkbox checked={checked} onChange={toggleCheckbox} />
-        <Typography>Ya tome la foto, dejame pasar alv</Typography>
-      </Grid>
+      <TextField
+        id="step5-answer"
+        value={answer}
+        onChange={handleTextChange}
+        label="Respuesta"
+        inputProps={{ className: classes.input }}
+        InputLabelProps={{ className: classes.inputLabel }}
+      />
       <ClickAwayListener onClickAway={handleCloseTooltip}>
         <Tooltip
           open={tooltipOpen}
-          title="Debes poner que ya tomaste la foto >:("
+          title="Debes poner la respuesta correcta para que se habilite el boton."
           arrow
         >
           <Grid container justifyContent="center" onClick={handleTooltip}>
             <Button
-              disabled={!checked}
+              disabled={disabled}
               variant="contained"
-              onClick={() => handleCompleteStep(3)}
+              onClick={() => handleCompleteStep(5)}
               className={classes.button}
             >
               Siguiente paso
@@ -92,4 +109,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Step3;
+export default Step5;
