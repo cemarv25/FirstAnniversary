@@ -55,9 +55,6 @@ const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
       alignItems="center"
       className={classes.navbar}
     >
-      <Grid container item xs={1} onClick={toggleDrawer}>
-        <Menu className={classes.menuButton} />
-      </Grid>
       <Grid container item xs={3} justifyContent="center">
         <Button onClick={() => handleNavigate('back')}>
           <ArrowBack />

@@ -5,11 +5,17 @@ import {
   TextField,
   makeStyles,
   Button,
-  ClickAwayListener,
   Tooltip,
+  ClickAwayListener,
 } from '@material-ui/core';
 
-const Step5 = ({ handleCompleteStep, handleNavigate }) => {
+const InputStep = ({
+  handleCompleteStep,
+  stepNumber,
+  possibleAnswers,
+  text,
+  tip,
+}) => {
   const classes = useStyles();
   const [disabled, setDisabled] = useState(true);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -20,7 +26,7 @@ const Step5 = ({ handleCompleteStep, handleNavigate }) => {
   };
 
   const validateAnswer = (answer) => {
-    if (answer === '1947') {
+    if (possibleAnswers.includes(answer)) {
       setDisabled(false);
     } else {
       setDisabled(true);
@@ -38,21 +44,16 @@ const Step5 = ({ handleCompleteStep, handleNavigate }) => {
     validateAnswer(answer);
   }, [answer]);
 
+  useEffect(() => {}, []);
+
   return (
     <Grid container direction="column" className={classes.container}>
       <Grid item style={{ marginBottom: '50px' }}>
-        <Typography className={classes.text}>
-          En este paso tienes que buscar en el lugar en el que ya estás. Hay un
-          edificio que encima tiene una persona rara que tiene algo en la mano.
-          Si te acercas mucho es probable que no veas la respuesta.
-        </Typography>
-        <Typography>
-          Pista: maybe el tipo raro encima del edificio considera ésta una fecha
-          importante.
-        </Typography>
+        <Typography className={classes.text}>{text}</Typography>
+        {tip ? <Typography>{tip}</Typography> : null}
       </Grid>
       <TextField
-        id="step5-answer"
+        id={`step${stepNumber}-answer`}
         value={answer}
         onChange={handleTextChange}
         label="Respuesta"
@@ -62,14 +63,14 @@ const Step5 = ({ handleCompleteStep, handleNavigate }) => {
       <ClickAwayListener onClickAway={handleCloseTooltip}>
         <Tooltip
           open={tooltipOpen}
-          title="Debes poner la respuesta correcta para que se habilite el boton."
+          title="Debes poner la respuesta correcta para que se habilite el boton >:("
           arrow
         >
           <Grid container justifyContent="center" onClick={handleTooltip}>
             <Button
               disabled={disabled}
               variant="contained"
-              onClick={() => handleCompleteStep(5)}
+              onClick={() => handleCompleteStep(stepNumber)}
               className={classes.button}
             >
               Siguiente paso
@@ -89,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   text: {
     margin: 0,
     padding: 0,
-    fontSize: '1.75rem',
+    fontSize: '2rem',
   },
   input: {
     fontSize: '2rem',
@@ -109,4 +110,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Step5;
+export default InputStep;

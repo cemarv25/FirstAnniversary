@@ -9,7 +9,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-const Step3 = ({ handleCompleteStep, handleNavigate }) => {
+const ImageStep = ({ handleCompleteStep, stepNumber, text, tip }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -28,15 +28,8 @@ const Step3 = ({ handleCompleteStep, handleNavigate }) => {
   return (
     <Grid container direction="column" className={classes.container}>
       <Grid item style={{ marginBottom: '50px' }}>
-        <Typography className={classes.text}>
-          El tercer paso va a servir para empezar con la dinámica que va a haber
-          a lo largo de todo el día. Esta dinámica consiste en tomar fotos de
-          todos los lugares a los que te lleven los distintos acertijos o pasos
-          de la forma descrita en él o por tuamorsito.
-        </Typography>
-        <Typography className={classes.text}>
-          Por ahora, tienes que ir al lugar donde ocurre la frase anterior.
-        </Typography>
+        <Typography className={classes.text}>{text}</Typography>
+        {tip ? <Typography>{tip}</Typography> : null}
       </Grid>
       <Grid container direction="row" alignItems="center">
         <Checkbox checked={checked} onChange={toggleCheckbox} />
@@ -52,7 +45,7 @@ const Step3 = ({ handleCompleteStep, handleNavigate }) => {
             <Button
               disabled={!checked}
               variant="contained"
-              onClick={() => handleCompleteStep(3)}
+              onClick={() => handleCompleteStep(stepNumber)}
               className={classes.button}
             >
               Siguiente paso
@@ -92,4 +85,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Step3;
+export default ImageStep;
