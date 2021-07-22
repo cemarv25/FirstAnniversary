@@ -30,7 +30,7 @@ const Home = ({ handleNavigate }) => {
         Empezar!
       </Button>
       <Typography className={classes.footer}>
-        Una disculpa por la elección de colores tan feos, yo lo le se al diseño
+        Una disculpa por la elección de colores tan feos, yo no le se al diseño
         jsjsjs
       </Typography>
     </Grid>

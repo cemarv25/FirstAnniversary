@@ -10,23 +10,33 @@ import {
 import { ArrowBack, ArrowForward, Menu } from '@material-ui/icons';
 import { Link, useHistory } from 'react-router-dom';
 
-const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
+const Navbar = ({ toggleDrawer, step, handleNavigate, steps }) => {
   const [title, setTitle] = useState('<3');
-  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState([false, false]);
   const classes = useStyles();
   const history = useHistory();
 
   const isStepCompleted = (step) => {
-    if (!completedSteps[step]) return false;
-    return completedSteps[step].completed;
+    if (!steps[step]) return false;
+    return steps[step].completed;
   };
 
-  const handleTooltipOpen = () => {
-    setTooltipOpen(true);
+  const handleTooltipOpen = (tooltipIndex) => {
+    setTooltipOpen((prevTooltipOpen) => {
+      const newTooltipOpen = [...prevTooltipOpen];
+      newTooltipOpen[tooltipIndex] = true;
+
+      return newTooltipOpen;
+    });
   };
 
-  const handleTooltipClose = () => {
-    setTooltipOpen(false);
+  const handleTooltipClose = (tooltipIndex) => {
+    setTooltipOpen((prevTooltipOpen) => {
+      const newTooltipOpen = [...prevTooltipOpen];
+      newTooltipOpen[tooltipIndex] = false;
+
+      return newTooltipOpen;
+    });
   };
 
   const handleRequestNavigateForward = (step) => {
@@ -36,15 +46,17 @@ const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
   };
 
   useEffect(() => {
-    console.log('completed', completedSteps);
-    console.log('step', step);
     if (step == 0) {
       history.push('/');
       setTitle('<3');
     }
-    if (step > 0 && step < 9) {
+    if (step > 0 && step < steps.length + 1) {
       history.push(`/${step}`);
       setTitle(`Paso ${step}`);
+    }
+    if (step >= steps.length + 1) {
+      history.push('/finish');
+      setTitle('FINAL');
     }
   }, [step]);
 
@@ -56,18 +68,36 @@ const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
       className={classes.navbar}
     >
       <Grid container item xs={3} justifyContent="center">
-        <Button onClick={() => handleNavigate('back')}>
-          <ArrowBack />
-        </Button>
+        <ClickAwayListener onClickAway={() => handleTooltipClose(0)}>
+          <Tooltip
+            open={tooltipOpen[0]}
+            onClose={() => handleTooltipClose(0)}
+            disableFocusListener
+            disableHoverListener
+            disableTouchListener
+            arrow
+            title="No puedes ir para atrás :("
+          >
+            <Grid>
+              <Button
+                onClick={() =>
+                  step === 0 ? handleTooltipOpen(0) : handleNavigate('back')
+                }
+              >
+                <ArrowBack />
+              </Button>
+            </Grid>
+          </Tooltip>
+        </ClickAwayListener>
       </Grid>
       <Grid container item xs={3} justifyContent="center">
         <Typography className={classes.navbarTitle}>{title}</Typography>
       </Grid>
       <Grid container item xs={3} justifyContent="center">
-        <ClickAwayListener onClickAway={handleTooltipClose}>
+        <ClickAwayListener onClickAway={() => handleTooltipClose(1)}>
           <Tooltip
-            open={tooltipOpen}
-            onClose={handleTooltipClose}
+            open={tooltipOpen[1]}
+            onClose={() => handleTooltipClose(1)}
             disableFocusListener
             disableHoverListener
             disableTouchListener
@@ -91,6 +121,7 @@ const Navbar = ({ toggleDrawer, step, handleNavigate, completedSteps }) => {
 const useStyles = makeStyles((theme) => ({
   navbar: {
     height: '7vh',
+    width: '100%',
     backgroundColor: theme.palette.primary.main,
   },
   navbarTitle: {

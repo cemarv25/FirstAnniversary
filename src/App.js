@@ -13,6 +13,7 @@ import {
 } from './components/Steps/Steps';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
+import Finish from './components/Finish';
 
 function App() {
   const [steps, setSteps] = useState([
@@ -68,8 +69,26 @@ function App() {
       text: 'Resulta que la respuesta a este paso se encuentra atrapada en algo que puede ser de varios colores. Rescátalo y escribe qué es para pasar al siguiente :o',
       tip: 'Pista: algo que hemos visto muy pocas veces juntos, si no es que nunca y necesita algo especial para no pasársela en el suelo.',
     },
-    { index: 8, completed: false },
-    { index: 9, completed: false },
+    {
+      index: 8,
+      completed: false,
+      type: 'input',
+      possibleAnswers: [
+        "uru'l'ur'u'l",
+        "u r u' l' u r' u' l",
+        "URU'L'UR'U'L",
+        "U R U' L' U R' U' L",
+      ],
+      text: 'Cuando giras las esquinas para ponerlas en su lugar.',
+      tip: 'A lo mejor te sirve tener un rubo cubik a la mano',
+    },
+    {
+      index: 9,
+      completed: false,
+      type: 'input',
+      possibleAnswers: ['724863915'],
+      text: 'Ahora es el momento de disfrutar de un lindo sudoku. El diario de la fecha 12 de junio de 2021, justo un mes y 10 días antes del aniversario :o\nEl link para este sudoku es https://tinyurl.com/2sjnmdwt',
+    },
   ]);
   const [step, setStep] = useState(0);
   const [open, setOpen] = useState(false);
@@ -89,7 +108,7 @@ function App() {
       setStep((prevState) => prevState - 1);
     }
 
-    if (direction == 'forward' && step < 9) {
+    if (direction == 'forward' && step < steps.length + 1) {
       setStep((prevState) => prevState + 1);
     }
   };
@@ -104,7 +123,7 @@ function App() {
         <Navbar
           toggleDrawer={toggleDrawer}
           step={step}
-          completedSteps={steps}
+          steps={steps}
           handleNavigate={handleNavigate}
         />
         <Switch>
@@ -135,42 +154,7 @@ function App() {
               </Route>
             );
           })}
-          {/* <Route exact path="/2">
-            <Step2
-              handleCompleteStep={handleCompleteStep}
-              handleNavigate={handleNavigate}
-            />
-          </Route>
-          <Route exact path="/3">
-            <Step3
-              handleCompleteStep={handleCompleteStep}
-              handleNavigate={handleNavigate}
-            />
-          </Route>
-          <Route exact path="/4">
-            <Step4
-              handleCompleteStep={handleCompleteStep}
-              handleNavigate={handleNavigate}
-            />
-          </Route>
-          <Route exact path="/5">
-            <Step5
-              handleCompleteStep={handleCompleteStep}
-              handleNavigate={handleNavigate}
-            />
-          </Route>
-          <Route exact path="/6">
-            <Step6
-              handleCompleteStep={handleCompleteStep}
-              handleNavigate={handleNavigate}
-            />
-          </Route>
-          <Route exact path="/7">
-            <Step7
-              handleCompleteStep={handleCompleteStep}
-              handleNavigate={handleNavigate}
-            />
-          </Route> */}
+          <Route exact path="/finish" component={Finish} />
         </Switch>
       </BrowserRouter>
     </>
